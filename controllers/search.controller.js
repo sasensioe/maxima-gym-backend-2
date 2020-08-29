@@ -1,28 +1,42 @@
 const { response, request } = require('express');
 
-const User = require('../models/user.model')
+const User = require('../models/user.model');
+const Article = require('../models/article.model');
 
 
 const getByCollection = async (req, res = response) => {
 
     const collection = req.params.table;
     const text = req.params.text;
-
+    const param = req.params.param;
     const regexp = new RegExp(text, 'i');
-
+    
     let data = [];
 
     try {
 
         switch(collection){
             case 'users':
-                data = await User.find({name: regexp});
+                if(param === 'all'){
+                    data = await User.find(
+                        { $or: [{name:regexp}, {surname: regexp}, {id: regexp} ] }
+                    )
+                }else{
+                    data = await User.find(
+                        { $and: [{role:role}, {$or: [{name:regexp}, {surname: regexp}, {role: regexp}, {id: regexp}]}]  }
+                    )
+                }
+
             break;
             case 'articles':
-                data = await User.find({title: regexp});
+                if(param === 'all'){
+                    data = await Article.find({title: regexp});
+                }else{
+                    data = await Article.find({ $and: [{category: param}, {title: regexp}] });
+                }
             break;
             case 'clients':
-                data = await User.find({name: regexp});
+                
             break;
 
             default:

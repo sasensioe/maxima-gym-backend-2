@@ -5,11 +5,13 @@ const { check } = require('express-validator');
 const router = Router();
 
 const { login, renewToken } = require('../controllers/auth.controller');
-
 const { validateData } = require('../middlewares/validateData');
 const { validateJWT } = require('../middlewares/validateJWT')
 
+
 // path: '/api/login'
+
+router.get('/renewToken', validateJWT, renewToken);
 
 router.post(
     '/',
@@ -20,9 +22,6 @@ router.post(
     ],
     login
 );
-
-router.get('/renewToken', validateJWT, renewToken);
-
 
 
 module.exports = router;

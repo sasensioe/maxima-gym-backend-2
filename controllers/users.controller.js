@@ -46,20 +46,39 @@ const newAdmin = async(req, res = response) => {
 const getUsers = async (req, res = response) => {
 
     const from = Number(req.query.from || 0);
+    const role = req.params.role;
 
-    const [ users, total ] = await Promise.all([
-        User.find()
-            .skip(from)
-            .limit(5),
-        
-        User.countDocuments()
-    ]);
+    if(role === 'all'){
+        const [ users, total ] = await Promise.all([
+            User.find()
+                .skip(from)
+                .limit(5),
+            
+            User.countDocuments()
+        ]);
+        return res.json({
+            ok: true,
+            users,
+            total
+        })
+    }else{
+        const [ users, total ] = await Promise.all([
+            User.find({role: role})
+                .skip(from)
+                .limit(5),
+            
+            User.countDocuments({role: role})
+        ]);
+        return res.json({
+            ok: true,
+            users,
+            total
+        })
+    }
 
-    res.json({
-        ok: true,
-        users,
-        total
-    })
+
+
+
 
 }
 

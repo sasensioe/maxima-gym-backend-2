@@ -1,19 +1,19 @@
 
 const { Router } = require('express');
 
-const { getArticles, newArticle, updateArticle } = require('../controllers/articles.controller');
-
-const { check } = require('express-validator');
-const { validateData } = require('../middlewares/validateData');
+const { getArticles, getArticle, newArticle, updateArticle } = require('../controllers/articles.controller');
 
 const { validateJWT } = require('../middlewares/validateJWT');
+const { check } = require('express-validator');
+const { validateData } = require('../middlewares/validateData');
 
 const router = Router();
 
 
 // route: /api/articles
 
-router.get('/', getArticles);
+router.get('/:category', getArticles);
+router.get('/getArticle/:id', getArticle);
 
 router.post(
     '/',
@@ -29,5 +29,6 @@ router.post(
     newArticle);
     
 router.put('/:id', validateJWT, updateArticle);
+
 
 module.exports = router;

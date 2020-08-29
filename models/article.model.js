@@ -19,7 +19,7 @@ const SchemaArticle = Schema({
     },
     img: {
         type: String,
-        required: true
+        required: false
     },
     category: {
         type: String,
@@ -43,6 +43,8 @@ const SchemaArticle = Schema({
 SchemaArticle.method('toJSON', function () {
 
     const { __v, _id, ...object } = this.toObject();
+
+    object.id = _id;
 
     return object;
 
