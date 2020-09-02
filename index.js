@@ -24,6 +24,7 @@ app.use('/api/users', require('./routes/users.routes'));
 app.use('/api/login', require('./routes/auth.routes'));
 app.use('/api/all', require('./routes/search.routes'));
 app.use('/api/images', require('./routes/images.routes'));
+app.use('/api/info-requests', require('./routes/info-requests.routes'));
 
 // server init
 app.listen(process.env.PORT, () => {
