@@ -23,7 +23,7 @@ const getByCollection = async (req, res = response) => {
                     )
                 }else{
                     data = await User.find(
-                        { $and: [{role:role}, {$or: [{name:regexp}, {surname: regexp}, {role: regexp}, {id: regexp}]}]  }
+                        { $and: [{role:param}, {$or: [{name:regexp}, {surname: regexp}, {role: regexp}, {id: regexp}]}]  }
                     )
                 }
 

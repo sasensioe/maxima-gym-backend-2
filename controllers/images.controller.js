@@ -82,13 +82,15 @@ const imageUpload = async(req, res = response) => {
         return result.data;
     })
 
+    const url = dbImage.url;
+
     // update database
-    imageUpdate(collection, id, dbImage);
+    await imageUpdate(collection, id, dbImage);
 
     res.status(200).json({
         ok: true,
         msg: 'Image uploaded',
-        fileName
+        url
     })
 
     // delete temp img
