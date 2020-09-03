@@ -1,6 +1,7 @@
 
 require('dotenv').config();
 
+const path = require('path');
 const express = require('express');
 const cors = require('cors');
 
@@ -17,6 +18,9 @@ app.use(express.json());
 
 // database connection
 dbConnection();
+
+app.use( express.static('public'));
+
 
 // routes
 app.use('/api/articles', require('./routes/articles.routes'));
