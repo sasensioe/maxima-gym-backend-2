@@ -26,6 +26,12 @@ app.use('/api/all', require('./routes/search.routes'));
 app.use('/api/images', require('./routes/images.routes'));
 app.use('/api/info-requests', require('./routes/info-requests.routes'));
 
+// Index Route
+
+app.get('*', (req, res) => {
+    res.sendFile( path.resolve(__dirname, 'public/index.html') )
+})
+
 // server init
 app.listen(process.env.PORT, () => {
     console.log('Listening in port ' + process.env.PORT)
