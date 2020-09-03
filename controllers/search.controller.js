@@ -1,5 +1,7 @@
 const { response, request } = require('express');
 
+const moment = require('moment');
+
 const User = require('../models/user.model');
 const Article = require('../models/article.model');
 
@@ -60,5 +62,69 @@ const getByCollection = async (req, res = response) => {
 
 }
 
+const searchArticles = async(req, res) => {
 
-module.exports = { getByCollection }
+    const text = req.params.text;
+    const category = req.params.category;
+    const days = req.params.days;
+    const regexp = new RegExp(text, 'i');
+
+    const dateNow = moment()
+    const dateFrom = moment().subtract(days,'d');
+
+
+    if(category === 'all'){
+
+        if(days === 'all'){
+            const [ articles, total ] = await Promise.all([
+                Article.find({title: regexp})
+                    .sort({date: -1}),
+                Article.countDocuments({title: regexp})
+            ]);
+            return res.json({
+                ok: true,
+                articles,
+                total
+            })
+        }else{
+            const [ articles, total ] = await Promise.all([
+                Article.find({$and: [{title: regexp}, {"date": {"$gte": Date.parse(dateFrom), "$lt": Date.parse(dateNow)}}]})
+                    .sort({date: -1}),
+                Article.countDocuments({$and: [{title: regexp}, {"date": {"$gte": Date.parse(dateFrom), "$lt": Date.parse(dateNow)}}]})
+            ]);
+            return res.json({
+                ok: true,
+                articles,
+                total
+            })
+        }
+    }else{
+        if(days === 'all'){
+            const [ articles, total ] = await Promise.all([
+                Article.find({$and: [{title: regexp}, {category: category}]})
+                    .sort({date: -1}),
+                Article.countDocuments({$and: [{title: regexp}, {category: category}]})
+            ]);
+            return res.json({
+                ok: true,
+                articles,
+                total
+            })
+        }else{
+            const [ articles, total ] = await Promise.all([
+                Article.find({$and: [{title: regexp}, { "date": {"$gte": Date.parse(dateFrom), "$lt": Date.parse(dateNow)} }, { category: category }]})
+                    .sort({date: -1}),
+                Article.countDocuments({$and: [{title: regexp}, { "date": {"$gte": Date.parse(dateFrom), "$lt": Date.parse(dateNow)} }, { category: category }]})
+            ]);
+            return res.json({
+                ok: true,
+                articles,
+                total
+            })
+        }
+    }
+
+}
+
+
+module.exports = { getByCollection, searchArticles }

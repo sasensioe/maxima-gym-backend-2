@@ -1,7 +1,7 @@
 
 const { Router } = require('express');
 
-const { getByCollection } = require('../controllers/search.controller')
+const { getByCollection, searchArticles } = require('../controllers/search.controller')
 
 
 const router = Router();
@@ -11,5 +11,6 @@ const router = Router();
 
 router.get('/collection/:table/:text/:param', getByCollection)
 
+router.get('/searchArticles/:text/:category/:days', searchArticles)
 
 module.exports = router
