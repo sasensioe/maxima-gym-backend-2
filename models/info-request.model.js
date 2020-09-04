@@ -24,6 +24,14 @@ const SchemaInfoRequest = Schema({
     message: {
         type: String,
         required: true
+    },
+    status: {
+        type: String,
+        required: false
+    },
+    calls: {
+        type: Object,
+        required: false
     }
 });
 

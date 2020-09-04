@@ -3,16 +3,17 @@ const { Router } = require('express');
 
 const router = Router();
 
-const { newInfoRequest, getInfoRequest, getInfoRequests, updateInfoRequest } = require('../controllers/info-requests.controller')
+const { newInfoRequest, getInfoRequest, getInfoRequests, setResponse, addCallLog } = require('../controllers/info-requests.controller')
 
 // path: '/api/info-requests'
 
 router.get('/', getInfoRequests );
-router.get('/getById', getInfoRequest );
+router.get('/getRequest/:id', getInfoRequest );
 
 router.post('/', newInfoRequest );
 
-router.put('/', updateInfoRequest );
+router.put('/setResponse/:id', setResponse )
+router.put('/callLog', addCallLog );
 
 
 module.exports = router;
