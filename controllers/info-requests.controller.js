@@ -3,8 +3,12 @@ const InfoRequest = require('../models/info-request.model')
 
 const newInfoRequest = async(req, res) => {
 
+    console.log(req.body)
+
     try {
-        const infoRequest = new InfoRequest({...req.body, status: 'pending'});
+
+        const data = {...req.body, status: 'pending'};
+        const infoRequest = new InfoRequest(data);
 
         await infoRequest.save();
 
@@ -107,6 +111,26 @@ const setResponse = async(req, res) => {
 
 const addCallLog = async(req, res) => {
 
+    const id = req.params.id;
+
+    try {
+
+        let call = req.body;
+
+        await InfoRequest.findByIdAndUpdate(id, {$push: {calls: call}});
+
+        res.status(200).json({
+            ok: true,
+            call
+        })
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Cannot add call'
+        })
+    }
 
 
 }

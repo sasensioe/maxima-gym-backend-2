@@ -27,10 +27,10 @@ const SchemaInfoRequest = Schema({
     },
     status: {
         type: String,
-        required: false
+        required: true,
     },
     calls: {
-        type: Object,
+        type: Array,
         required: false
     }
 });

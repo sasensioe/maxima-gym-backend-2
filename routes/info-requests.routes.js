@@ -8,12 +8,12 @@ const { newInfoRequest, getInfoRequest, getInfoRequests, setResponse, addCallLog
 // path: '/api/info-requests'
 
 router.get('/', getInfoRequests );
-router.get('/getRequest/:id', getInfoRequest );
+router.get('/get-request/:id', getInfoRequest );
 
 router.post('/', newInfoRequest );
 
-router.put('/setResponse/:id', setResponse )
-router.put('/callLog', addCallLog );
+router.put('/set-response/:id', setResponse )
+router.put('/register-call/:id', addCallLog );
 
 
 module.exports = router;

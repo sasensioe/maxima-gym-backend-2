@@ -9,13 +9,13 @@ const router = Router();
 
 // route: /api/articles
 
-router.post('/newArticle', validateJWT, newArticle );
+router.post('/new-article', validateJWT, newArticle );
 
-router.get('/getArticles/:category/:date', getArticles );
-router.get('/getArticle/:id', getArticle );
-router.get('/getRelated/:title/:category', getRelated)
+router.get('/get-articles/:category/:date', getArticles );
+router.get('/get-article/:id', getArticle );
+router.get('/get-related/:title/:category', getRelated)
     
-router.put('/updateArticle/:id', validateJWT, updateArticle );
+router.put('/update-article/:id', validateJWT, updateArticle );
 
 
 module.exports = router;

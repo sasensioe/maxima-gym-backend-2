@@ -10,7 +10,6 @@ const router = Router();
 // route: /api/all
 
 router.get('/collection/:table/:text/:param', getByCollection)
-
-router.get('/searchArticles/:text/:category/:days', searchArticles)
+router.get('/search-articles/:text/:category/:days', searchArticles)
 
 module.exports = router

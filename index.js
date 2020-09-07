@@ -19,19 +19,19 @@ app.use(express.json());
 // database connection
 dbConnection();
 
+// use public directory
 app.use( express.static('public'));
 
-
 // routes
-app.use('/api/articles', require('./routes/articles.routes'));
-app.use('/api/users', require('./routes/users.routes'));
-app.use('/api/login', require('./routes/auth.routes'));
 app.use('/api/all', require('./routes/search.routes'));
+app.use('/api/login', require('./routes/auth.routes'));
+app.use('/api/users', require('./routes/users.routes'));
+app.use('/api/clients', require('./routes/clients.routes'));
+app.use('/api/articles', require('./routes/articles.routes'));
 app.use('/api/images', require('./routes/images.routes'));
 app.use('/api/info-requests', require('./routes/info-requests.routes'));
 
 // Index Route
-
 app.get('*', (req, res) => {
     res.sendFile( path.resolve(__dirname, 'public/index.html') )
 })

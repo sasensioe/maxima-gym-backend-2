@@ -10,15 +10,15 @@ const router = Router();
 // route: /api/users
 
 router.post('/', newAdmin );
-router.post('/newUser', validateJWT, newUser );
+router.post('/new-user', validateJWT, newUser );
 
-router.get('/getUsers/:role', validateJWT, getUsers );
-router.get('/getUser/:id', validateJWT, getUserById );
+router.get('/get-users/:role', validateJWT, getUsers );
+router.get('/get-user/:id', validateJWT, getUserById );
 
-router.put('/updateUser/:id', validateJWT, updateUser );
+router.put('/update-user/:id', validateJWT, updateUser );
 
-router.get('/checkPassword/:id', validateJWT, checkPassword );
-router.put('/updatePassword/:id', validateJWT, updatePassword );
+router.get('/check-password/:id', validateJWT, checkPassword );
+router.put('/update-password/:id', validateJWT, updatePassword );
 
 
 module.exports = router;

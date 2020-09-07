@@ -4,6 +4,7 @@ const moment = require('moment');
 
 const User = require('../models/user.model');
 const Article = require('../models/article.model');
+const Client = require('../models/client.model');
 
 
 const getByCollection = async (req, res = response) => {
@@ -30,15 +31,16 @@ const getByCollection = async (req, res = response) => {
                 }
 
             break;
-            case 'articles':
-                if(param === 'all'){
-                    data = await Article.find({title: regexp});
-                }else{
-                    data = await Article.find({ $and: [{category: param}, {title: regexp}] });
-                }
-            break;
             case 'clients':
-                
+                if(param === 'all'){
+                    data = await Client.find(
+                        { $or: [{name:regexp}, {surname: regexp}, {id: regexp} ] }
+                    )
+                }else{
+                    data = await Client.find(
+                        { $and: [{plan:param}, {$or: [{name:regexp}, {surname: regexp}, {plan: regexp}, {id: regexp}]}]  }
+                    )
+                }
             break;
 
             default:
