@@ -6,11 +6,13 @@ const { generateJWT } = require('../helpers/jwt.helper')
 const bcrypt = require('bcryptjs');
 
 const User = require('../models/user.model');
+const Client = require('../models/client.model')
 
 
-const login = async (req, res = response) => {
+const teamLogin = async (req, res = response) => {
 
-    const { email, password } = req.body;
+    const email = String(req.body.email);
+    const password = String(req.body.password);
 
     try {
         
@@ -48,7 +50,51 @@ const login = async (req, res = response) => {
     }
 }
 
-const renewToken = async(req, res = response) => {
+const membersLogin = async (req, res = response) => {
+
+    const email = String(req.body.email);
+    const password = String(req.body.password);
+
+    try {
+        
+        const dbClient = await Client.findOne({ 'contact.email': email });
+
+        if(!dbClient){
+            return res.status(500).json({
+                ok: false,
+                msg: 'Email not valid'
+            })
+        }
+
+        const validPassword = bcrypt.compareSync(password, dbClient.access.password.toString());
+
+
+        console.log(validPassword)
+        if(!validPassword){
+            return res.status(500).json({
+                ok: false,
+                msg: 'Password not valid'
+            })
+        }
+
+        const token = await generateJWT(dbClient.id);
+
+        res.status(200).json({
+            ok: true,
+            token
+        })
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Cannot login'
+        })
+    }
+
+}
+
+const renewUserToken = async(req, res = response) => {
 
     const uid = req.uid;
 
@@ -65,4 +111,21 @@ const renewToken = async(req, res = response) => {
 
 }
 
-module.exports = { login, renewToken }
+const renewClientToken = async(req, res = response) => {
+
+    const uid = req.uid;
+
+    const client = await Client.findById(uid);
+    const token = await generateJWT(uid);
+
+    res.json({
+        ok: true,
+        token,
+        client
+    })
+
+
+
+}
+
+module.exports = { teamLogin, membersLogin, renewUserToken, renewClientToken }

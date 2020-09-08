@@ -3,12 +3,10 @@ const InfoRequest = require('../models/info-request.model')
 
 const newInfoRequest = async(req, res) => {
 
-    console.log(req.body)
-
     try {
 
-        const data = {...req.body, status: 'pending'};
-        const infoRequest = new InfoRequest(data);
+        let data = {...req.body, status: 'pending'};
+        let infoRequest = new InfoRequest(data);
 
         await infoRequest.save();
 

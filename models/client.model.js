@@ -8,6 +8,11 @@ const SchemaClient = Schema({
         type: String,
         required: true
     },
+    role: {
+        type: String,
+        required: true,
+        default: 'client'
+    },
     surname: {
         type: String,
         required: true

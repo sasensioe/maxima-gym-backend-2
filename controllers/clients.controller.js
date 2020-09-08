@@ -198,7 +198,7 @@ const updatePassword = async(req, res) => {
         const salt = bcrypt.genSaltSync();
         const newPass = bcrypt.hashSync(pass, salt);
 
-        await Client.findByIdAndUpdate(uid, {'$set': {'access.password': newPass}})
+        await Client.findByIdAndUpdate(uid, {'$set': {'access.password': newPass}}, {useFindAndModify: false})
         
         res.status(200).json({
             ok: true,
