@@ -10,7 +10,7 @@ const Client = require('../models/client.model')
 
 
 const teamLogin = async (req, res = response) => {
-
+    console.log('team')
     const email = String(req.body.email);
     const password = String(req.body.password);
 
@@ -66,10 +66,8 @@ const membersLogin = async (req, res = response) => {
             })
         }
 
-        const validPassword = bcrypt.compareSync(password, dbClient.access.password.toString());
+        const validPassword = bcrypt.compareSync(password, dbClient.access.password);
 
-
-        console.log(validPassword)
         if(!validPassword){
             return res.status(500).json({
                 ok: false,
@@ -96,18 +94,26 @@ const membersLogin = async (req, res = response) => {
 
 const renewUserToken = async(req, res = response) => {
 
-    const uid = req.uid;
+    try {
 
-    const user = await User.findById(uid);
-    const token = await generateJWT(uid);
+        const uid = req.uid;
 
-    res.json({
-        ok: true,
-        token,
-        user
-    })
-
-
+        const user = await User.findById(uid);
+        const token = await generateJWT(uid);
+    
+        res.json({
+            ok: true,
+            token,
+            user
+        })
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Cannot renew user token'
+        })
+    }
 
 }
 
